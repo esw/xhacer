@@ -1,4 +1,11 @@
-from djangoappengine.settings_base import *
+try:
+    from djangoappengine.settings_base import *
+    has_djangoappengine = True
+except ImportError:
+    has_djangoappengine = False
+    DEBUG = True
+    TEMPLATE_DEBUG = DEBUG
+    
 import os
 import sys
 
@@ -28,7 +35,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = (
-    'djangoappengine',
     'djangotoolbox',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +46,11 @@ INSTALLED_APPS = (
     'geo',
     'places',
 )
+
+if has_djangoappengine:
+    INSTALLED_APPS = ('djangoappengine',) + INSTALLED_APPS
+
+ROOT_URLCONF = 'urls'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 
