@@ -52,11 +52,11 @@
                             {% if user.is_staff %}
                             /  <a href='/admin'>{% trans 'Admin' %}</a>
                             {% endif %}
-                            /  <a href='{% url acct_logout %}'>{% trans 'Cerrar Sesion' %}</a>
+                            /  <a href='{%comment%}{% url acct_logout %}{%endcomment%}'>{% trans 'Cerrar Sesion' %}</a>
                         </div>
                     {% else %}
-                        <a href='{% acct_login %}'>{% trans 'Iniciar Sesion' %}</a>
-                        /   <a href='{% acct_signup %}'>{% trans 'Registrarse' %}</a>
+                        <a href='{%comment%}{% acct_login %}{%endcomment%}'>{% trans 'Iniciar Sesion' %}</a>
+                        /   <a href='{%comment%}{% acct_signup %}{%endcomment%}'>{% trans 'Registrarse' %}</a>
                     {% endif %}
                 {% endblock %}
                 {% block locale_switcher %}{% endblock %}
