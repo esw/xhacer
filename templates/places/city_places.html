@@ -29,7 +29,7 @@
 
         function createMarker(point, index, name, dir, url, cate, ico) {
           var catIcon = new GIcon(G_DEFAULT_ICON);
-          catIcon.image = "{{ MEDIA_URL }}img/"+ico+".png";
+          catIcon.image = "{{ STATIC_URL }}img/"+ico+".png";
   	  catIcon.iconSize = new GSize(32, 32);
 
           var marker = new GMarker(point,{title:name,icon:catIcon});
@@ -65,48 +65,86 @@
       <div id="movieTitle">
 	<h1 class="title">{{ city.name }}</h1>
 	<h2>{{ city.country.name }}<br/></h2>
+	<br><br>
       </div>
-      
+
       <div id="search">
 	<form method="get" action="{{ city.get_absolute_url }}/buscar/">
-	  <input id="q" name="q" maxlength="100" size="55" type="text" style="padding:3px 6px 3px 21px;background: url({{ MEDIA_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Buscar sitios en {{ city.name }}..." onblur="if(this.value=='') this.value='Buscar sitios en {{ city.name }}...';" onfocus="if(this.value=='Buscar sitios en {{ city.name }}...') this.value='';"/>
+	  <input id="q" name="q" maxlength="100" size="92" type="text" style="padding:3px 6px 3px 21px;background: url({{ STATIC_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Buscar sitios en {{ city.name }}..." onblur="if(this.value=='') this.value='Buscar sitios en {{ city.name }}...';" onfocus="if(this.value=='Buscar sitios en {{ city.name }}...') this.value='';"/>
 	</form>
       </div>
-      
       <div id="map_canvas"></div>
-      
+
       {% if perms.places.add_place %}
         <br>
             <a href="{% url place_city_add city.slug %}">Agregar sitio</a>
         <br>
       {% endif %}
-      
+
     </div>
-  
-    <!-- EAR: BLOQUES -->
+
+    <!-- BLOQUE SITIOS NUEVOS -->
         <div class="box b3 "   id="topReviews">
           <div class="boxHeader boxHeaderTitle">
-  	    <h3 class="clearfix">xHacer</h3>
+  	    <h3 class="clearfix">Sitios Nuevos</h3>
           </div>
           <div class="boxDivider"><hr/></div>
           <div class="boxContent clearfix">
             {% if places_list %}
 	    <ul class="reviews">
-	    
+
             {% for place in places_list %}
               <!-- BLOQUE XHACER -->
 	      <li class="comment clearfix ">
 		<div class="userImg">
-                   <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" ><img src="{{ MEDIA_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ MEDIA_URL }}img/otros-big.png'" width="50" alt="{{ place.name }}" /></a><br/>
+                   <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" ><img src="{{ STATIC_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ STATIC_URL }}img/otros-big.png'" width="50" alt="{{ place.name }}" /></a><br/>
 		</div>
 		<div class="text">
-		  <div class="username">
+		  <div class="date">{{ place.created|date:"d/F/Y"|lower }}</div>
+                  <div class="username">
                     <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" >{{ place.name }}</a>
 		  </div>
-		  <p>{{ place.desc|truncatewords:15 }}</p>
+		  <a href="{{ place.category.get_absolute_url }}">{{ place.category }}</a>
+                  <p>{{ place.desc|truncatewords:15 }}</p>
 	        </div>
 	      </li>
-	        {% endfor %}	      
+	        {% endfor %}
+            </ul>
+	    {% endif %}
+            <div class="boxlinks">
+              <h2><a href="" class="forwardLink" >Ver todos los sitios</a></h2>
+            </div>
+
+          </div>
+        </div>
+
+    <!-- END BLOQUES SITIOS NUEVOS-->
+
+    <!-- BLOQUE SUGERENCIAS NUEVAS -->
+        <div class="box b3 "   id="topReviews">
+          <div class="boxHeader boxHeaderTitle">
+  	    <h3 class="clearfix">Nuevas cosas xHacer</h3>
+          </div>
+          <div class="boxDivider"><hr/></div>
+          <div class="boxContent clearfix">
+            {% if suggestions %}
+	    <ul class="reviews">
+
+            {% for sugg in suggestions %}
+                <li class="comment clearfix ">
+		  <div class="userImg">
+                    <a href="" title="{{ sugg.user }}" ><img src="{{ STATIC_URL }}img/Dummy_user.png" width="50" alt="{{ sugg.user }}" /></a><br/>
+	          </div>
+
+		  <div class="text">
+		    <div class="date">{{ sugg.created|date:"d/F/Y"|lower }}</div>
+		    <div class="username">
+                      <a href="" title="{{ sugg.user }}" >{{ sugg.user }}</a> en <a href="{{ sugg.place.get_absolute_url }}" title="{{ sugg.place }}">{{ sugg.place }}</a>
+		    </div>
+		    <p>{{ sugg.text }}</p>
+	          </div>
+	        </li>
+	        {% endfor %}
             </ul>
 	    {% endif %}
             <div class="boxlinks">
@@ -114,13 +152,10 @@
             </div>
 
           </div>
-
-          <div class="boxFooter">
-            <div class="boxTail"></div>
-          </div>
         </div>
 
-<!-- EAR: END BLOQUES -->
+    <!-- END BLOQUE SUGERENCIAS NUEVAS -->
+
 
       </div>
 

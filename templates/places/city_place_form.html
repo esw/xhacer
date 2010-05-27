@@ -72,30 +72,33 @@
 {% block body_extra_params %}onload="initialize()" onunload="GUnload()"{% endblock %}
 
 {% block body %}
-  {% if place %}
-    <h1>{{ place.name }}</h1>
-  {% else %}
-    <h1>{{ city.name }} - Adicionar sitio</h1>
-  {% endif %}
-  <div class="right">
-    <br>
-    <div id="map_canvas"</div>
-  </div>
-  
-  <div class="left">
-    <form action="" method="POST" class="uniForm" id="CityPlaceForm">
-        <fieldset class="inlineLabels">
+  <div id="mainColumn">
+    <div id="details">
+      <div id="movieTitle">
+        {% if place %}
+          <h1>{{ place.name }}</h1>
+        {% else %}
+          <h1>Adicionar sitio en <a href="{{ city.get_absolute_url }}">{{ city.name }}</a></h1>
+        {% endif %}
+      </div>
+
+      <br>
+      <div id="map_canvas"</div>
+      
+      <div>
+        <form action="" method="POST" class="uniForm" id="CityPlaceForm">
+          <fieldset class="inlineLabels">
             <legend>* Required fields</legend>
             {{ form|as_uni_form }}
-        </fieldset>
-        <div class="buttonHolder">
+          </fieldset>
+          <div class="buttonHolder">
             <input type="submit" value="Guardar" />
-        </div>
-    </form>
-    {% comment %}
-        {% with form.helper as helper %}
-            {% uni_form form helper %}
-        {% endwith %}
-    {% endcomment %}
+          </div>
+        </form>
+      </div>
+
+    </div>
   </div>
+
+
 {% endblock %}

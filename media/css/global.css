@@ -3,7 +3,9 @@
 body  { background:#1B5790; margin: 0; padding: 0px; font-family: "Helvetica Neue", arial, verdana, sans-serif; font-size:12px; color:#535A60; }
 img   { border-width:0; border-style:none; }
 blockquote { margin:0; }
-h1,h2,h3,h4,h5,h6 { font-weight: bold; margin: 0; padding:0; }
+h1,h2,h3,h4,h5,h6 { margin: 0; padding:0; }
+h1 { color:#333333; font-size:32px; font-weight: bold; margin-bottom:10px;}
+h2 { font-weight:normal; }
 ol, ul, dl { list-style:none; margin:0; padding:0; }
 a { color: #0077BB; text-decoration:none;}
 a:visited { color: #0077BB; }
@@ -17,7 +19,7 @@ a:hover { color: #0077BB; text-decoration:underline;}
 /* End hide from IE Mac */
 
 #body { width:800px; clear:both; padding:9px 10px; margin:9px auto 4px auto; min-height: 300px; background:#fff; }
-.title     { font-size: 20px; font-weight: bold; }
+/*.title     { font-size: 20px; font-weight: bold; }*/
 .review     { font-size: 12px; }
 .comment    { font-size: 12px; }
 .xsmalltext { font-size: x-small; }
@@ -37,8 +39,8 @@ a:hover { color: #0077BB; text-decoration:underline;}
 #pageHeader .welcome a { color:#ffffff; padding:0 4px; }
 
 
-#pageTop { width:800px; height:7px; padding:0px 10px; margin:9px auto 0px; position:relative; }
-#pageTop p { width:780px; height:7px; padding:0px; margin:0px; position:absolute; top:0; right:0; }
+/*#pageTop { width:800px; height:7px; padding:0px 10px; margin:9px auto 0px; position:relative; }
+#pageTop p { width:780px; height:7px; padding:0px; margin:0px; position:absolute; top:0; right:0; }*/
 #pageBody { width:900px; clear:both; padding:3px 10px 9px; margin:0px auto 4px; background-color:#fff; min-height: 300px; }
 #pageFooter { font-size:11px; color:#000; background-color:#1B5790; width:900px; margin:0 auto 20px auto; padding:10px; position:relative; }
 #pageFooter p { clear:both; margin:0; padding:0; color:#ccc; margin-bottom:5px; line-height:16px; }
@@ -108,10 +110,10 @@ a:hover { color: #0077BB; text-decoration:underline;}
 #bodyContent .comment .mct { font-weight:normal; }
 #bodyContent .reviews .badge { margin:4px auto; }
 #bodyContent .reviews .share { float:right; font-size:11px; }
-#bodyContent #details { font-size:11px; }
-#bodyContent #details .title { color:#333; margin-bottom:10px; font-size:32px; }
-#bodyContent #details .leftSide { float:left; }
-#bodyContent #details .poster { margin-bottom:8px; }
+/*#bodyContent #details { font-size:11px; }*/
+/*#bodyContent #details .title { color:#333; margin-bottom:10px; font-size:32px; }*/
+/*#bodyContent #details .leftSide { float:left; }
+#bodyContent #details .poster { margin-bottom:8px; }*/
 #bodyContent #news ul li { margin:8px 0px; }
 #bodyContent #news .storyImg { float:left; width:60px; height:60px; overflow:hidden; margin-right:12px; }
 #bodyContent #news .age { font-size:10px; color:#aaa; }
