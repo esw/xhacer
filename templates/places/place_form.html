@@ -1,0 +1,20 @@
+{% extends "places/base.html" %}
+{% load uni_form %}
+
+{% block body %}
+
+    <form action="" method="POST" class="uniForm">
+        <fieldset class="inlineLabels">
+            <legend>* Required fields</legend>
+            {{ form|as_uni_form }}
+        </fieldset>
+        <div class="buttonHolder">
+            <input type="submit" value="Guardar" />
+        </div>
+    </form>
+    {% comment %}
+        {% with form.helper as helper %}
+            {% uni_form form helper %}
+        {% endwith %}
+    {% endcomment %}
+{% endblock %}

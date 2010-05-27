@@ -1,0 +1,101 @@
+{% extends "places/base.html" %}
+{% load uni_form %}
+
+{% block extrahead_base %}
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key={{ MAPS_API_KEY }}"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var bounds = new GLatLngBounds();
+        var map = new GMap2(document.getElementById("map_canvas"));
+        {% if place %}
+          map.setCenter(new GLatLng({{ place.lat }}, {{ place.lon }}), 17);
+        {% else %}
+          {% if x %}
+            map.setCenter(new GLatLng({{ y }}, {{ x }}), 17);
+          {% else %}
+            map.setCenter(new GLatLng({{ city.lat }},{{ city.lon }}), 13);
+          {% endif %}
+        {% endif %}
+
+        map.setUIToDefault();
+
+        {% if place %}
+          var point = new GPoint ({{ place.lat }}, {{ place.lon }});
+          var point_tid = new GLatLng({{ place.lat }}, {{ place.lon }});
+          bounds.extend(point_tid);
+          var marker = new GMarker(point_tid, {draggable: true});
+          map.addOverlay(marker);
+          map.setCenter(bounds.getCenter(),map.getBoundsZoomLevel(bounds));
+        {% else %}
+          {% if x %}
+            var point = new GLatLng({{ y }}, {{ x }});
+            var marker = new GMarker(point, {draggable: true});
+            bounds.extend(point);
+            map.addOverlay(marker);
+            $("#id_lon").val({{ x }})
+            $("#id_lat").val({{ y }})
+            map.setCenter(bounds.getCenter(),map.getBoundsZoomLevel(bounds));
+          {% else %}
+            var point = new GPoint (10.9775,-74.8024);
+            var marker = new GMarker(point, {draggable: true});
+            map.addOverlay(marker);
+          {% endif %}
+
+        {% endif %}
+
+        GEvent.addListener(map, "click", function (overlay,point){
+         if (point){
+            marker.setPoint(point);
+            $("#id_lon").val(point.x)
+            $("#id_lat").val(point.y)
+         }
+        });
+
+        GEvent.addListener(marker, "dragend", function() {
+	    var point = marker.getPoint();
+            $("#id_lon").val(point.x)
+            $("#id_lat").val(point.y)
+
+        });
+
+      }
+    }
+
+    </script>
+
+{% endblock %}
+
+{% block body_extra_params %}onload="initialize()" onunload="GUnload()"{% endblock %}
+
+{% block body %}
+  {% if place %}
+    <h1>{{ place.name }}</h1>
+  {% else %}
+    <h1>{{ city.name }} - Adicionar sitio</h1>
+  {% endif %}
+  <div class="right">
+    <br>
+    <div id="map_canvas"</div>
+  </div>
+  
+  <div class="left">
+    <form action="" method="POST" class="uniForm" id="CityPlaceForm">
+        <fieldset class="inlineLabels">
+            <legend>* Required fields</legend>
+            {{ form|as_uni_form }}
+        </fieldset>
+        <div class="buttonHolder">
+            <input type="submit" value="Guardar" />
+        </div>
+    </form>
+    {% comment %}
+        {% with form.helper as helper %}
+            {% uni_form form helper %}
+        {% endwith %}
+    {% endcomment %}
+  </div>
+{% endblock %}

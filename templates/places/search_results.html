@@ -1,0 +1,53 @@
+{% extends "places/base.html" %}
+
+
+{% block body_class %}places{% endblock %}
+
+{% block body %}
+
+  <h1>{{ city.name }} - Busqueda de sitios</h1>
+  <div class="right">
+    {% if perms.places.add_place %}
+        <br>
+            No encontraste el sitio que buscabas? <a href="{% url place_city_add city.slug %}">Adicionalo!</a>
+        <br>
+    {% endif %}
+
+    <div>
+      <h3 class="blue">Categorias</h3>
+      {% for categ in categories %}
+	 <li><a href="{{ city.get_absolute_url }}/{{ categ.slug }}">{{ categ.name }}</a></li>
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+  <div class="left">
+
+    <div id="search">
+      <form method="get" action="{{ city.get_absolute_url }}/buscar/">
+        <input id="q" name="q" maxlength="100" size="55" type="text" style="padding:3px 6px 3px 21px;background: url({{ STATIC_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Buscar sitios en {{ city.name }}..." onblur="if(this.value=='') this.value='Buscar sitios en {{ city.name }}...';" onfocus="if(this.value=='Buscar sitios en {{ city.name }}...') this.value='';"/>
+      </form>
+    </div>
+
+    {% if places_list %}
+      <p>Resultado de la busqueda</p>
+      {% for place in places_list %}
+        <div class="places_list">
+          <p>
+            <a href="{{ place.get_absolute_url }}"><img src="{{ STATIC_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ STATIC_URL }}img/otros-big.png'" alt="Comentario" title="{{ place.name }}" class="image"/></a>
+            <a href="{{ place.get_absolute_url }}"><strong>{{ place.name }}</strong></a>
+            <br/>{{ place.address }}<br/>{{ place.desc|truncatewords:15 }}
+          </p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No se encontraron sitios con " {{ query_string }} "</p>
+    {% endif %}
+
+  </div>
+
+{% endblock %}
+
+

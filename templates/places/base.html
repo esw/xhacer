@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/places.css" />
+{% endblock %}
+
+{% block body_class %}places{% endblock %}
+
+
+{% block subnav %}
+    <ul>
+    {% if user.is_authenticated %}
+            <li><a href="{% url city_list %}">{% trans "City List" %}</a></li>        
+
+    {% else %}
+        &nbsp; {# need this to give subnav some height when empty #}
+    {% endif %}
+    </ul>
+{% endblock %}

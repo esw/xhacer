@@ -1,0 +1,9 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Page Not Found - "%}{{ block.super }}{% endblock %}
+{% block module-name %}{% trans "Page Not Found"%}{% endblock %}
+{% block content-title %}{% trans "Page Not Found" %}{% endblock %}
+{% block content %}
+<p class="failure">{% trans "We are really sorry... the webpage you requested was not found." %}</p>
+{% endblock %}

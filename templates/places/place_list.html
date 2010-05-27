@@ -1,0 +1,13 @@
+{% extends "places/base.html" %}
+{% block body_class %}places{% endblock %}
+{% block body %}
+
+    <h2> Sitios </h2>
+    <a href="{% url place_add %}">agregar</a>
+    <ul>
+        {% for place in object_list %}
+            <li><a href="{{ place.get_absolute_url}}">{{ place.name }}</a></li>
+        {% endfor %}
+    <ul>
+
+{% endblock %}

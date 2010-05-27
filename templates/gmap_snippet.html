@@ -1,0 +1,30 @@
+<script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"));
+        map.setCenter(new GLatLng(25.7846573589, -80.1375120878), 17);
+        map.addControl(new GMapTypeControl());
+	map.removeMapType(G_PHYSICAL_MAP);
+        map.addControl(new GSmallMapControl());
+
+        function createMarker(point, index, name, cate, ico) {
+          var catIcon = new GIcon(G_DEFAULT_ICON);
+          catIcon.image = "/site_media/static/img/"+ico+".png";
+  	  catIcon.iconSize = new GSize(32, 32);
+
+          var marker = new GMarker(point,{title:name,icon:catIcon});
+
+          GEvent.addListener(marker, 'click', function() {
+            marker.openInfoWindowHtml("<b>"+name+"</b>");
+          });
+          return marker;
+        }
+
+            var point_tid = new GLatLng(25.7846573589, -80.1375120878);
+            map.addOverlay(createMarker(point_tid,1,'Flamingo Park','Parques','parques'));
+
+      }
+    }
+
+    </script>

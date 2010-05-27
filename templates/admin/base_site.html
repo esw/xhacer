@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'KeHacr.com site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+<img src="{% comment %}{% load media %}{% media_prefix %}{% endcomment %}img/logo_small.png" border="0" alt="KeHacr.com" title="KeHacr.com" />
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

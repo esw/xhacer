@@ -1,0 +1,9 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Server Error - "%}{{ block.super }}{% endblock %}
+{% block module-name %}{% trans "Server Error"%}{% endblock %}
+{% block content-title %}{% trans "Server Error" %}{% endblock %}
+{% block content %}
+<p class="failure">{% trans "We are really sorry... an error has ocurred and the page you requested cannot be retrieved." %}</p>
+{% endblock %}

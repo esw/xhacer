@@ -1,0 +1,174 @@
+{% extends "places/base.html" %}
+
+{% block extrahead_base %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key={{ MAPS_API_KEY }}"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"));
+        map.setCenter(new GLatLng({{ object.lat }}, {{ object.lon }}), 17, G_HYBRID_MAP);
+        map.addControl(new GMapTypeControl());
+	map.removeMapType(G_PHYSICAL_MAP);
+        map.addControl(new GSmallMapControl());
+
+        function createMarker(point, index, name, cate, ico) {
+          var catIcon = new GIcon(G_DEFAULT_ICON);
+          catIcon.image = "{{ STATIC_URL }}img/"+ico+".png";
+  	  catIcon.iconSize = new GSize(32, 32);
+
+          var marker = new GMarker(point,{title:name,icon:catIcon});
+
+          GEvent.addListener(marker, 'click', function() {
+            marker.openInfoWindowHtml("<b>"+name+"</b>");
+          });
+          return marker;
+        }
+
+	{% if object %}
+            var point_tid = new GLatLng({{ object.lat }}, {{ object.lon }});
+            map.addOverlay(createMarker(point_tid,1,'{{ object.name }}','{{ object.category }}','{{ object.category.slug }}'));
+        {% endif %}
+
+      }
+    }
+
+    </script>
+
+{% endblock %}
+
+{% block body_class %}places{% endblock %}
+{% block body_extra_params %}onload="initialize()" onunload="GUnload()"{% endblock %}
+
+{% block body %}
+
+	  <!--BOF CONTENT-->
+          <table border="0" cellpadding="0" cellspacing="0" width="750" height="100%">
+
+            <tr>
+              <td valign="top">
+			  <img border="0" src="images/blank.gif" width="100%" height="30">
+		          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+					  <td height="1"><h1 class="main_title2">{{ object.name }}</h1></td>
+					</tr>
+					<tr>
+
+					  <td height="5"><img border="0" src="{{ STATIC_URL }}img/blank.gif" width="100%" height="10"></td>
+					</tr>
+					<tr>
+					  <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+						  <tr>
+						    <td valign="top" style="border-top: 1px solid #cccccc;"><br>
+                                                      <table border="0" cellpadding="0" cellspacing="10" width="100%">
+                                                        <tr>
+                                                          <td valign="top">
+                                                            <!--DATOS-->
+                                                            <table border="0" cellpadding="3" cellspacing="0" width="100%" height="100%">
+                                                              
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="15"></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Ubicacion:</b></td>
+                                                                <td valign="top"><a href="/{{ object.city.slug }}">{{ object.city }}</a></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Categoria:</b></td>
+                                                                <td valign="top"><a href="/{{ object.city.slug }}/{{ object.category.slug }}">{{ object.category }}</a></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Direccion:</b></td>
+                                                                <td valign="top">{{ object.address }}</td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Telefonos:</b></td>
+                                                                <td valign="top">{{ object.tel }}</td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+
+                                                              {% if object.url %}
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Pagina web:</b></td><td valign="top"><a href="{{ object.url }}" target="_blank">{{ object.url }}</a></td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+                                                              {% endif %}
+
+                                                              <tr>
+                                                                <td valign="top" align="right"><b>Creado:</b></td>
+                                                                <td valign="top">{{ object.created }}</td>
+                                                              </tr>
+
+                                                              <tr>
+                                                                <td valign="top" colspan="2"><img src="{{ STATIC_URL }}img/blank.gif" border="0" width="100%" height="10"></td>
+                                                              </tr>
+
+
+                                                              {% if perms.places.change_place %}
+                                                              <tr>
+                                                                <td valign="top" align="right"><a href="{% url place_edit object.city.slug object.slug %}">editar</a></td>
+                                                              </tr>
+                                                              {% endif %}
+
+
+                                                            </table>
+                                                          </td>
+
+                                                          <td width="420" valign="top">
+                                                            <table border="0" cellpadding="10" cellspacing="0" width="100%" style="border: 0px solid #cccccc;">
+                                                              <tr>
+                                                                <td width="450" valign="top" style="padding-left:10px"><center><br><div id="map_canvas" style="width: 400px; height: 300px"></div></center></td>
+                                                              </tr>
+                                                            </table>
+                                                          </td>
+
+                                                        </tr>
+                                                      </table>
+
+                                                      <br>
+                                                      <span style="font-size:20px">Descripcion</span><hr noshade color="#cccccc" size="1">
+                                                      <div align="justify">{{ object.desc }}</div>
+
+
+
+                                                    </td>
+
+						  </tr>
+						</table>
+					      </td>
+		                            </tr>
+				          </table>
+
+                                          <img border="0" src="{{ STATIC_URL }}img/blank.gif" width="100%" height="40">
+			                </td>
+                                      </tr>
+                                    </table>
+	                            <!--EOF CONTENT-->
+
+
+{% endblock %}
