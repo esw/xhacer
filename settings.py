@@ -52,6 +52,9 @@ if has_djangoappengine:
 
 ROOT_URLCONF = 'urls'
 
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URLNAME = "index"
+
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 MEDIA_URL = '/media/'
