@@ -47,6 +47,13 @@ INSTALLED_APPS = (
     'places',
 )
 
+if DEBUG:
+    _ds_pathinfo = {
+        'datastore_path' : 'gae-data/dgae.datastore',
+        'history_path' : 'gae-data/dgae.datastore.history',
+    }
+    DATABASES['default'].update(_ds_pathinfo)
+
 if has_djangoappengine:
     INSTALLED_APPS = ('djangoappengine',) + INSTALLED_APPS
 
