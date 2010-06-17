@@ -37,3 +37,6 @@ Thumbs.db
 
 # Directory #
 gae-data
+django
+djangoappengine
+djangotoolbox
