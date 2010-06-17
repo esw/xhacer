@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^$', 'django.views.generic.simple.redirect_to',{'url':'/barranquilla', 'permanent': False}, name='index'),
     url(r'^', include('places.urls')),
     # PRUEBA ED
+    # PRUEBA EDICION JOSE!!!
 )
