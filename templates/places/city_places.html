@@ -29,7 +29,7 @@
 
         function createMarker(point, index, name, dir, url, cate, ico) {
           var catIcon = new GIcon(G_DEFAULT_ICON);
-          catIcon.image = "{{ STATIC_URL }}img/"+ico+".png";
+          catIcon.image = "{{ MEDIA_URL }}img/"+ico+".png";
   	  catIcon.iconSize = new GSize(32, 32);
 
           var marker = new GMarker(point,{title:name,icon:catIcon});
@@ -45,10 +45,10 @@
             bounds.extend(point_tid);
             map.addOverlay(createMarker(point_tid,1,'{{ place.name }}','{{ place.address }}','{{ place.get_absolute_url}}','{{ place.category }}','{{ place.category.slug }}'));
           {% endfor %}
+          map.setCenter(bounds.getCenter(),map.getBoundsZoomLevel(bounds));
+          //map.zoomOut();
         {% endif %}
 
-        map.setCenter(bounds.getCenter(),map.getBoundsZoomLevel(bounds));
-        //map.zoomOut();
       }
     }
 
@@ -70,7 +70,7 @@
 
       <div id="search">
 	<form method="get" action="{{ city.get_absolute_url }}/buscar/">
-	  <input id="q" name="q" maxlength="100" size="92" type="text" style="padding:3px 6px 3px 21px;background: url({{ STATIC_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Buscar sitios en {{ city.name }}..." onblur="if(this.value=='') this.value='Buscar sitios en {{ city.name }}...';" onfocus="if(this.value=='Buscar sitios en {{ city.name }}...') this.value='';"/>
+	  <input id="q" name="q" maxlength="100" size="92" type="text" style="padding:3px 6px 3px 21px;background: url({{ MEDIA_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Buscar sitios en {{ city.name }}..." onblur="if(this.value=='') this.value='Buscar sitios en {{ city.name }}...';" onfocus="if(this.value=='Buscar sitios en {{ city.name }}...') this.value='';"/>
 	</form>
       </div>
       <div id="map_canvas"></div>
@@ -84,20 +84,19 @@
     </div>
 
     <!-- BLOQUE SITIOS NUEVOS -->
+        {% if places_list %}
         <div class="box b3 "   id="topReviews">
           <div class="boxHeader boxHeaderTitle">
   	    <h3 class="clearfix">Sitios Nuevos</h3>
           </div>
           <div class="boxDivider"><hr/></div>
           <div class="boxContent clearfix">
-            {% if places_list %}
 	    <ul class="reviews">
 
             {% for place in places_list %}
-              <!-- BLOQUE XHACER -->
 	      <li class="comment clearfix ">
 		<div class="userImg">
-                   <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" ><img src="{{ STATIC_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ STATIC_URL }}img/otros-big.png'" width="50" alt="{{ place.name }}" /></a><br/>
+                   <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" ><img src="{{ MEDIA_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ MEDIA_URL }}img/otros-big.png'" width="50" alt="{{ place.name }}" /></a><br/>
 		</div>
 		<div class="text">
 		  <div class="date">{{ place.created|date:"d/F/Y"|lower }}</div>
@@ -110,30 +109,29 @@
 	      </li>
 	        {% endfor %}
             </ul>
-	    {% endif %}
             <div class="boxlinks">
               <h2><a href="" class="forwardLink" >Ver todos los sitios</a></h2>
             </div>
 
           </div>
         </div>
-
+        {% endif %}
     <!-- END BLOQUES SITIOS NUEVOS-->
 
     <!-- BLOQUE SUGERENCIAS NUEVAS -->
+        {% if suggestions %}
         <div class="box b3 "   id="topReviews">
           <div class="boxHeader boxHeaderTitle">
   	    <h3 class="clearfix">Nuevas cosas xHacer</h3>
           </div>
           <div class="boxDivider"><hr/></div>
           <div class="boxContent clearfix">
-            {% if suggestions %}
 	    <ul class="reviews">
 
             {% for sugg in suggestions %}
                 <li class="comment clearfix ">
 		  <div class="userImg">
-                    <a href="" title="{{ sugg.user }}" ><img src="{{ STATIC_URL }}img/Dummy_user.png" width="50" alt="{{ sugg.user }}" /></a><br/>
+                    <a href="" title="{{ sugg.user }}" ><img src="{{ MEDIA_URL }}img/Dummy_user.png" width="50" alt="{{ sugg.user }}" /></a><br/>
 	          </div>
 
 		  <div class="text">
@@ -146,19 +144,16 @@
 	        </li>
 	        {% endfor %}
             </ul>
-	    {% endif %}
             <div class="boxlinks">
               <h2><a href="" class="forwardLink" >Ver todas las sugerencias</a></h2>
             </div>
 
           </div>
         </div>
-
-    <!-- END BLOQUE SUGERENCIAS NUEVAS -->
-
+        {% endif %}
+        <!-- END BLOQUE SUGERENCIAS NUEVAS -->
 
       </div>
-
 
 {% endblock %}
 
