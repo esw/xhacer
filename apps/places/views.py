@@ -8,6 +8,32 @@ from geo.models import City
 from places.models import Place, Category, get_query
 from places.forms import PlaceForm, PlaceCityForm
 
+
+def inicio(request):
+    place_list = Place.objects.all().order_by('-created')[:10]
+    '''suggestions = Suggestion.objects.all().order_by('-created')[:10]'''
+
+    return render_to_response('places/inicio.html',
+                          { 'place_list' : place_list, },
+                          context_instance=RequestContext(request))
+
+def search(request):
+    if ('q' in request.GET) and request.GET['q'].strip():
+       q = request.GET['q']
+       '''city_num = City.objects.filter(name__icontains=request.GET['q']).count()'''
+       city_list = City.objects.filter(name=request.GET['q'])
+       place_list = Place.objects.filter(name=request.GET['q'])
+
+       return render_to_response('places/search.html',
+                            { 'place_list' : place_list,
+                              'city_list':city_list,
+                              'q':q,  },
+                            context_instance=RequestContext(request))
+
+    return render_to_response('places/search.html', {  },
+                         context_instance=RequestContext(request))
+
+
 def place_detail(request,city_slug,place_slug):
     places_list = Place.objects.filter(city__slug=city_slug)
 

@@ -15,6 +15,8 @@ city_list_dict = {
 }
 
 urlpatterns = patterns('',
+    url(r'^inicio/?$', inicio, name='inicio'),
+    url(r'^busqueda/?$', search, name='search'),
     url(r'^ciudades/?$', object_list, city_list_dict, name='city_list'),
     url(r'^agregar/?$', create_object, place_edit, name='place_add'),
     url(r'^(?P<city_slug>[-\w]+)/?$', city_list, name='place_city_list'),

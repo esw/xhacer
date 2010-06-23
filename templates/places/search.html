@@ -1,0 +1,123 @@
+{% extends "places/base.html" %}
+
+{% block extrahead_base %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key={{ MAPS_API_KEY }}"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var bounds = new GLatLngBounds();
+        var map = new GMap2(document.getElementById("map_canvas"));
+        map.addControl(new GMapTypeControl());
+	map.removeMapType(G_PHYSICAL_MAP);
+        map.addControl(new GLargeMapControl());
+
+
+        function createMarker(point, index, name, url,ico) {
+          var catIcon = new GIcon(G_DEFAULT_ICON);
+
+          var marker = new GMarker(point,{title:name,icon:catIcon});
+
+          GEvent.addListener(marker, 'click', function() {marker.openInfoWindowHtml("<b>"+name+"</b><a href="+url+">Detalle</a>");
+          });
+          return marker;
+        }
+
+	{% if cities %}
+          {% for city in cities %}
+            var point_tid = new GLatLng({{ city.lat }}, {{ city.lon }});
+            bounds.extend(point_tid);
+            map.addOverlay(createMarker(point_tid,1,'{{ city.name }}','{{ city.get_absolute_url}}'));
+          {% endfor %}
+        {% endif %}
+
+        map.setCenter(bounds.getCenter(),map.getBoundsZoomLevel(bounds));
+        //map.zoomOut();
+      }
+    }
+
+    </script>
+
+{% endblock %}
+
+{% block body_class %}places{% endblock %}
+{% block body_extra_params %}onload="initialize()" onunload="GUnload()"{% endblock %}
+
+{% block body %}
+
+  <br><br>
+  <h1>Resultado de la Busqueda</h1>
+  <br><br>
+  <div id="search">
+    <form method="get" action="/busqueda/">
+      <input id="q" name="q" maxlength="100" size="77" type="text" style="padding:3px 6px 3px 21px;background: url({{ MEDIA_URL }}img/search_icon.gif) no-repeat 4px 3px;" value="Pais, Ciudad o Sitio" onblur="if(this.value=='') this.value='Pais, Ciudad o Sitio';" onfocus="if(this.value=='Pais, Ciudad o Sitio') this.value='';"/>
+    </form>
+  </div>
+
+
+<div id="leftColumn">
+  {% if city_list %}
+    <div class="box b3 "   id="news">
+      <div class="boxHeader boxHeaderTitle">
+        <h3 class="clearfix">Ciudades</h3>
+      </div>
+      <div class="boxDivider">
+        <hr />
+      </div>
+
+      <div class="boxContent clearfix">
+        <ul>
+          {% for city in city_list %}
+          <li class="clearfix">
+            <a href="{{ city.get_absolute_url }}"><strong>{{ city.name }}</strong></a> - ({{ city.country.name }})
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  {% endif %}
+</div>
+
+<!-- BLOQUE SITIOS NUEVOS -->
+<div id="leftColumn">
+  {% if place_list %}
+  <div class="box b3 "   id="news">
+    <div class="boxHeader boxHeaderTitle">
+      <h3 class="clearfix">Sitios</h3>
+    </div>
+
+    <div class="boxDivider">
+      <hr />
+    </div>
+
+    <div class="boxContent clearfix">
+      <ul>
+        {% for place in place_list %}
+        <li class="clearfix">
+          <a href="{{ place.get_absolute_url }}" title="{{ place.name }}" ><img src="{{ MEDIA_URL }}img/{{ place.category.slug }}-big.png" onerror="this.src='{{ MEDIA_URL }}img/otros-big.png'" class="storyImg" width="50" alt="{{ place.name }}" /></a>
+          <!-- <a href=""  title="Wepa"  ><img src="img/restaurantes-big.png" width="60" height="60" alt=""  class="storyImg" border="0" />        </a> -->
+          <h4><a href="{{ place.get_absolute_url }}" title="{{ place.name }}" >{{ place.name }}</a></h4>
+          <!-- <div>Agregado por <a href=""  title="eaguera">eaguera</a>        </div> -->
+          <a href="{{ place.city.get_absolute_url }}">{{ place.city.name }}</a> - {{ place.city.country.name }}
+          <div class="age">{{ place.created|date:"d/F/Y"|lower }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+      <!-- <div class="boxlinks">
+	<a href="">Adicionar un sitio</a> | <a href="">Ver todos los sitios</a>
+      </div> -->
+    </div>
+  </div>
+  {% endif %}
+</div>
+<!-- END BLOQUES SITIOS NUEVOS-->
+
+
+
+
+{% endblock %}
+
+

@@ -84,9 +84,12 @@ a:hover { color: #0077BB; text-decoration:underline;}
 
 
 
+
 /* bodyContent */
 #bodyContent { width:850px; margin:0 auto; }
 #bodyContent #mainColumn { width:530px; float:left; }
+#bodyContent #rightColumn { width:415px; float:right; }
+#bodyContent #leftColumn { width:415px; float:left; }
 #bodyContent #sideColumn { width:300px; float:right; }
 #bodyContent p { margin:0; padding:0; }
 #bodyContent .box { margin-bottom:12px; }
